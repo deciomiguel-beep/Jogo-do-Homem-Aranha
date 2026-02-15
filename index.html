@@ -10,22 +10,36 @@
 
   <!-- ===== TELA DE INTRODUÇÃO ===== -->
   <div class="intro-screen" id="intro-screen">
-    <div class="intro-content">
-      <h1 class="game-title">🕷️ SPIDER RUN 🕷️</h1>
-      
-      <div class="device-selector" id="device-selector">
-        <h2>📱 ESCOLHA O DISPOSITIVO</h2>
-        <div class="device-buttons">
-          <button class="device-btn" data-device="celular">📱<br>Celular</button>
-          <button class="device-btn" data-device="tablet">📱<br>Tablet</button>
-          <button class="device-btn" data-device="computador">💻<br>Computador</button>
-        </div>
-      </div>
+    <video autoplay muted loop id="intro-video">
+      <source src="./SPIDER RUN.mp4" type="video/mp4" />
+      Seu navegador não suporta vídeos.
+    </video>
 
-      <div class="intro-buttons hidden" id="intro-buttons">
-        <button id="help-btn" class="intro-btn">❓ Instruções</button>
-        <button id="play-btn" class="intro-btn">▶️ Jogar</button>
-      </div>
+    <div class="intro-buttons">
+      <button id="help-btn" class="intro-btn">❓ Instruções</button>
+      <button id="play-btn" class="intro-btn">▶️ Jogar</button>
+    </div>
+  </div>
+
+  <!-- ===== SELETOR DE DIFICULDADE ===== -->
+  <div id="difficulty-selector" class="hidden">
+    <h2>🎮 ESCOLHA A DIFICULDADE</h2>
+    <div class="diff-buttons">
+      <button class="diff-btn easy" data-diff="easy">
+        <span class="diff-icon">🌱</span>
+        <span class="diff-name">FÁCIL</span>
+        <span class="diff-desc">1 vilão, 2 após 50 pts</span>
+      </button>
+      <button class="diff-btn medium" data-diff="medium">
+        <span class="diff-icon">🔥</span>
+        <span class="diff-name">MÉDIO</span>
+        <span class="diff-desc">2 vilões + power ups</span>
+      </button>
+      <button class="diff-btn hard" data-diff="hard">
+        <span class="diff-icon">💀</span>
+        <span class="diff-name">DIFÍCIL</span>
+        <span class="diff-desc">Tudo + vilão voador</span>
+      </button>
     </div>
   </div>
 
@@ -37,12 +51,6 @@
     <div class="score" id="score">Score: 0</div>
 
     <!-- containers dinâmicos (inseridos pelo JS) -->
-  </div>
-  
-  <!-- Botões de controle estilo arcade - fora do jogo -->
-  <div class="mobile-controls hidden" id="mobile-controls">
-    <button class="arcade-btn jump-btn" id="jump-btn">⬆️ PULAR</button>
-    <button class="arcade-btn restart-btn" id="restart-btn">🔄 R</button>
   </div>
 
   <script src="script.js"></script>

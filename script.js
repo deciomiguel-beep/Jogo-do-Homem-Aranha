@@ -1,4 +1,4 @@
-// script.js — Versão corrigida com sistema de dificuldade
+// script.js — Versão para computador com sistema de dificuldade
 window.addEventListener('DOMContentLoaded', () => {
 
   // ========================
@@ -7,91 +7,17 @@ window.addEventListener('DOMContentLoaded', () => {
   const helpBtn = document.getElementById('help-btn');
   const playBtn = document.getElementById('play-btn');
   const introScreen = document.getElementById('intro-screen');
-  const introButtons = document.getElementById('intro-buttons');
-  const deviceSelector = document.getElementById('device-selector');
   const gameBoard = document.getElementById('game-board');
+  const difficultySelector = document.getElementById('difficulty-selector');
   const spider = document.getElementById('spider');
   let venom = document.getElementById('venom');
   const venomFly = document.getElementById('venom-fly');
   const scoreDisplay = document.getElementById('score');
 
   // ========================
-  // DISPOSITIVO
-  // ========================
-  let device = 'computador'; // celular, tablet, computador
-  const deviceSettings = {
-    celular: {
-      gameWidth: '100%',
-      gameHeight: '100vh',
-      spiderSize: '120px',
-      venomSize: '60px',
-      flySize: '70px'
-    },
-    tablet: {
-      gameWidth: '100%',
-      gameHeight: '500px',
-      spiderSize: '150px',
-      venomSize: '75px',
-      flySize: '85px'
-    },
-    computador: {
-      gameWidth: '100%',
-      gameHeight: '600px',
-      spiderSize: '180px',
-      venomSize: '90px',
-      flySize: '100px'
-    }
-  };
-  
-  // Elementos dos botões mobile
-  const mobileControls = document.getElementById('mobile-controls');
-
-  // Configurar dispositivo
-  function setDevice(dev) {
-    device = dev;
-    const settings = deviceSettings[device];
-    
-    // Salvar no localStorage
-    localStorage.setItem('gameDevice', device);
-    
-    // Esconder seletor de dispositivo e mostrar botões
-    if (deviceSelector) deviceSelector.style.display = 'none';
-    if (introButtons) introButtons.classList.remove('hidden');
-  }
-  
-  // Aplicar configurações do dispositivo ao jogo
-  function applyDeviceSettings() {
-    // Primeiro tenta recuperar do localStorage
-    const savedDevice = localStorage.getItem('gameDevice');
-    if (savedDevice && deviceSettings[savedDevice]) {
-      device = savedDevice;
-    }
-    
-    const settings = deviceSettings[device];
-    
-    if (gameBoard) {
-      gameBoard.style.width = settings.gameWidth;
-      gameBoard.style.height = settings.gameHeight;
-    }
-    if (spider) {
-      spider.style.width = settings.spiderSize;
-    }
-  }
-
-  // Event listeners para botões de dispositivo
-  if (deviceSelector) {
-    deviceSelector.querySelectorAll('.device-btn').forEach(btn => {
-      btn.addEventListener('click', function() {
-        setDevice(this.dataset.device);
-        applyDeviceSettings();
-      });
-    });
-  }
-
-  // ========================
   // SISTEMA DE DIFICULDADE
   // ========================
-  let difficulty = 'easy'; // easy, medium, hard
+  let difficulty = 'easy';
   const difficultySettings = {
     easy: {
       name: 'Fácil',
@@ -331,7 +257,7 @@ window.addEventListener('DOMContentLoaded', () => {
       venom2.style.animationPlayState = paused ? 'paused' : 'running';
     }
     
-    // Venom voador
+    // Vilão voador
     const settings = difficultySettings[difficulty];
     if (venomFly && settings.flyEnabled) {
       ensureVisible(venomFly);
@@ -373,18 +299,6 @@ window.addEventListener('DOMContentLoaded', () => {
   // INICIAR JOGO
   // ========================
   function startGame() {
-    // Aplicar configurações do dispositivo
-    applyDeviceSettings();
-    
-    // Mostrar/ocultar botões mobile
-    if (mobileControls) {
-      if (device === 'celular' || device === 'tablet') {
-        mobileControls.classList.remove('hidden');
-      } else {
-        mobileControls.classList.add('hidden');
-      }
-    }
-    
     // Limpar telas anteriores
     const old = document.querySelector('.game-over');
     if (old) old.remove();
@@ -425,6 +339,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     // Mostrar tela de jogo
     if (introScreen) introScreen.classList.add('hidden');
+    if (difficultySelector) difficultySelector.classList.add('hidden');
     if (gameBoard) gameBoard.classList.remove('hidden');
 
     // Referência do venom
@@ -492,7 +407,6 @@ window.addEventListener('DOMContentLoaded', () => {
       // Verificar colisão com vilão voador
       if (venomFly && settings.flyEnabled) {
         const flyStyle = getComputedStyle(venomFly);
-        // Verificar se está visível (não display:none e não oculto)
         if (flyStyle.display !== 'none' && flyStyle.visibility !== 'hidden' && parseFloat(flyStyle.opacity) > 0) {
           if (elementCollides(spider, venomFly) && Date.now() > invincibleUntil) {
             return gameOverHandler();
@@ -530,7 +444,7 @@ window.addEventListener('DOMContentLoaded', () => {
       localStorage.setItem('highScore', highScore);
     }
 
-    // PARAR todas as animações - congelar vilões e fundo
+    // PARAR todas as animações - congelar vilões
     clearInterval(gameLoop);
     clearInterval(flyTimer);
     clearInterval(powerupSpawnTimer);
@@ -538,7 +452,6 @@ window.addEventListener('DOMContentLoaded', () => {
     // Congelar vilão principal
     if (venom) {
       venom.style.animationPlayState = 'paused';
-      // Salvar posição atual
       const venomStyle = window.getComputedStyle(venom);
       const venomRight = venomStyle.right;
       venom.style.animation = 'none';
@@ -563,11 +476,6 @@ window.addEventListener('DOMContentLoaded', () => {
       venomFly.style.animation = 'none';
       venomFly.style.right = flyRight;
       venomFly.style.bottom = flyBottom;
-    }
-    
-    // Congelar powerup se existir
-    if (powerupElement) {
-      powerupElement.style.animationPlayState = 'paused';
     }
     
     // Parar música
@@ -649,7 +557,7 @@ window.addEventListener('DOMContentLoaded', () => {
   // CONTROLES
   // ========================
   
-  // Função de pulo (reutilizável)
+  // Função de pulo
   function doJump() {
     if (!spider || gameOver || paused) return;
     
@@ -697,170 +605,38 @@ window.addEventListener('DOMContentLoaded', () => {
       if (!paused) pauseGame(); else resumeGame();
     }
   });
-  
-  // Touch/Clique para celular - Clique duplo para pulo duplo
-  let lastTap = 0;
-  const jumpBtn = document.getElementById('jump-btn');
-  const restartBtn = document.getElementById('restart-btn');
-  
-  // Botão PULAR do arcade
-  if (jumpBtn) {
-    jumpBtn.addEventListener('click', function(e) {
-      e.preventDefault();
-      e.stopPropagation();
-      if (gameOver || paused) return;
-      doJump();
-    });
-    
-    // Duplo clique no botão para pulo duplo
-    jumpBtn.addEventListener('dblclick', function(e) {
-      e.preventDefault();
-      e.stopPropagation();
-      if (gameOver || paused) return;
-      if (jumpCount === 1) {
-        spider.classList.remove('jump');
-        void spider.offsetWidth;
-        spider.classList.add('double-jump');
-        setTimeout(() => spider.classList.remove('double-jump'), 900);
-        jumpCount = 2;
-        setTimeout(() => jumpCount = 0, 1000);
-      } else {
-        doJump();
-      }
-    });
-  }
-  
-  // Botão R (reiniciar) do arcade
-  if (restartBtn) {
-    restartBtn.addEventListener('click', function(e) {
-      e.preventDefault();
-      e.stopPropagation();
-      if (gameOver) {
-        startGame();
-      }
-    });
-  }
-  
-  if (gameBoard) {
-    gameBoard.addEventListener('touchend', function(e) {
-      if (gameOver || paused) return;
-      e.preventDefault();
-      
-      const currentTime = new Date().getTime();
-      const tapLength = currentTime - lastTap;
-      
-      if (tapLength < 300 && tapLength > 0 && jumpCount === 1) {
-        // Duplo toque - transformar em pulo duplo
-        spider.classList.remove('jump');
-        void spider.offsetWidth;
-        spider.classList.add('double-jump');
-        setTimeout(() => spider.classList.remove('double-jump'), 900);
-        jumpCount = 2;
-        setTimeout(() => jumpCount = 0, 1000);
-      } else if (jumpCount < 2) {
-        // Primeiro toque ou já pulou - fazer pulo normal
-        doJump();
-      }
-      
-      lastTap = currentTime;
-    }, { passive: false });
-    
-    // Clique duplo no computador para teste
-    gameBoard.addEventListener('dblclick', function(e) {
-      if (gameOver || paused) return;
-      e.preventDefault();
-      if (jumpCount === 1) {
-        spider.classList.remove('jump');
-        void spider.offsetWidth;
-        spider.classList.add('double-jump');
-        setTimeout(() => spider.classList.remove('double-jump'), 900);
-        jumpCount = 2;
-        setTimeout(() => jumpCount = 0, 1000);
-      } else if (jumpCount < 2) {
-        doJump();
-      }
-    });
-  }
 
   // ========================
   // BOTÕES DA INTRO
   // ========================
   if (helpBtn) helpBtn.addEventListener('click', () => window.location.href = 'instrucoes.html');
   
-  // Botão Jogar - mostra seletor de dificuldade
   if (playBtn) {
-    playBtn.addEventListener('click', showDifficultySelector);
+    playBtn.addEventListener('click', () => {
+      // Mostrar seletor de dificuldade
+      if (difficultySelector) {
+        difficultySelector.classList.remove('hidden');
+      }
+    });
   }
 
   // ========================
   // SELETOR DE DIFICULDADE
   // ========================
-  function showDifficultySelector() {
-    let diffSelector = document.getElementById('difficulty-selector');
-    
-    if (!diffSelector) {
-      diffSelector = document.createElement('div');
-      diffSelector.id = 'difficulty-selector';
-      diffSelector.innerHTML = `
-        <h2>🎮 ESCOLHA A DIFICULDADE</h2>
-        <div class="diff-buttons">
-          <button class="diff-btn easy" data-diff="easy">
-            <span class="diff-icon">🌱</span>
-            <span class="diff-name">FÁCIL</span>
-            <span class="diff-desc">1 vilão, 2 após 50 pts</span>
-          </button>
-          <button class="diff-btn medium" data-diff="medium">
-            <span class="diff-icon">🔥</span>
-            <span class="diff-name">MÉDIO</span>
-            <span class="diff-desc">2 vilões + power ups</span>
-          </button>
-          <button class="diff-btn hard" data-diff="hard">
-            <span class="diff-icon">💀</span>
-            <span class="diff-name">DIFÍCIL</span>
-            <span class="diff-desc">Tudo + vilão voador</span>
-          </button>
-        </div>
-      `;
-      
-      // Estilos inline para o seletor
-      diffSelector.style.cssText = `
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0,0,0,0.95);
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        z-index: 1000;
-      `;
-      
-      document.body.appendChild(diffSelector);
-      
-      // Event listeners para os botões
-      diffSelector.querySelectorAll('.diff-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
-          difficulty = this.dataset.diff;
-          diffSelector.style.display = 'none';
-          startGame();
-          if (!bgMusic) playNextMusic();
-        });
+  if (difficultySelector) {
+    difficultySelector.querySelectorAll('.diff-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        difficulty = this.dataset.diff;
+        difficultySelector.classList.add('hidden');
+        startGame();
+        if (!bgMusic) playNextMusic();
       });
-    } else {
-      // Se já existe, apenas mostrar
-      diffSelector.style.display = 'flex';
-    }
+    });
   }
-
-  // Modificar o botão Jogar para mostrar o seletor de dificuldade
-  // (já feito acima com addEventListener)
 
   // ========================
   // INICIALIZAÇÃO
   // ========================
-  applyDeviceSettings(); // Aplicar configurações do dispositivo
   ensureVisible(venom);
   ensureHidden(venomFly);
   updateEnemySpeeds();
