@@ -397,6 +397,6 @@ body {
 /* Mostrar botões apenas no mobile */
 @media (min-width: 769px) {
   .mobile-controls {
-    display: none;
+    display: none !important;
   }
 }

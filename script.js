@@ -654,15 +654,16 @@ window.addEventListener('DOMContentLoaded', () => {
     if (!spider || gameOver || paused) return;
     
     spider.classList.remove('jump');
+    spider.classList.remove('double-jump');
     void spider.offsetWidth;
     
     if (jumpCount < 2) {
       if (jumpCount === 0) {
         spider.classList.add('jump');
-        setTimeout(() => spider.classList.remove('jump'), 700);
+        setTimeout(() => { if (spider) spider.classList.remove('jump'); }, 700);
       } else {
         spider.classList.add('double-jump');
-        setTimeout(() => spider.classList.remove('double-jump'), 900);
+        setTimeout(() => { if (spider) spider.classList.remove('double-jump'); }, 900);
       }
       jumpCount++;
       setTimeout(() => jumpCount = 0, 1000);
@@ -707,6 +708,7 @@ window.addEventListener('DOMContentLoaded', () => {
     jumpBtn.addEventListener('click', function(e) {
       e.preventDefault();
       e.stopPropagation();
+      if (gameOver || paused) return;
       doJump();
     });
     
@@ -714,6 +716,7 @@ window.addEventListener('DOMContentLoaded', () => {
     jumpBtn.addEventListener('dblclick', function(e) {
       e.preventDefault();
       e.stopPropagation();
+      if (gameOver || paused) return;
       if (jumpCount === 1) {
         spider.classList.remove('jump');
         void spider.offsetWidth;
