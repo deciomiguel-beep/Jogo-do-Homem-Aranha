@@ -687,6 +687,45 @@ window.addEventListener('DOMContentLoaded', () => {
   
   // Touch/Clique para celular - Clique duplo para pulo duplo
   let lastTap = 0;
+  const jumpBtn = document.getElementById('jump-btn');
+  const restartBtn = document.getElementById('restart-btn');
+  
+  // Botão PULAR do arcade
+  if (jumpBtn) {
+    jumpBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      doJump();
+    });
+    
+    // Duplo clique no botão para pulo duplo
+    jumpBtn.addEventListener('dblclick', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      if (jumpCount === 1) {
+        spider.classList.remove('jump');
+        void spider.offsetWidth;
+        spider.classList.add('double-jump');
+        setTimeout(() => spider.classList.remove('double-jump'), 900);
+        jumpCount = 2;
+        setTimeout(() => jumpCount = 0, 1000);
+      } else {
+        doJump();
+      }
+    });
+  }
+  
+  // Botão R (reiniciar) do arcade
+  if (restartBtn) {
+    restartBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      if (gameOver) {
+        startGame();
+      }
+    });
+  }
+  
   if (gameBoard) {
     gameBoard.addEventListener('touchend', function(e) {
       if (gameOver || paused) return;
