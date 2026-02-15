@@ -1,0 +1,318 @@
+/* ===== RESET ===== */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  overflow: hidden;
+  font-family: 'Press Start 2P', monospace;
+  background: black;
+  color: white;
+}
+
+/* ===== INTRODUÇÃO ===== */
+#intro-video {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
+}
+
+.intro-buttons {
+  position: absolute;
+  bottom: 15%;
+  right: 120px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  z-index: 150;
+}
+
+.intro-btn {
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  border: 2px solid white;
+  font-size: 1.3rem;
+  padding: 18px 28px;
+  border-radius: 10px;
+  cursor: pointer;
+  width: 260px;
+  text-align: center;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+.intro-btn:hover { background: white; color: black; transform: scale(1.03); }
+
+/* ===== JOGO ===== */
+.game-board {
+  width: 100%;
+  height: 600px;
+  border-bottom: 40px solid rgb(35, 160, 35);
+  margin: 0 auto;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(to top, #3185da, #003366);
+}
+
+/* night mode */
+.game-board.night-mode {
+  background: linear-gradient(to top, #0b1b2b, #001525);
+}
+
+/* spider */
+.spider {
+  position: absolute;
+  bottom: -20px;
+  left: 80px;
+  width: 180px;
+  transition: bottom 0.1s linear;
+  z-index: 5;
+}
+
+/* Venom terrestre (principal) */
+#venom {
+  position: absolute;
+  bottom: 0px;
+  right: -150px;
+  width: 90px;
+  z-index: 2;
+  animation: venom-move 2.5s linear infinite;
+}
+
+/* Venom voador */
+#venom-fly {
+  position: absolute;
+  bottom: 90px;
+  right: -200px;
+  width: 100px;
+  z-index: 3;
+  display: block;
+}
+
+/* Animação terrestre */
+@keyframes venom-move {
+  from { right: -150px; }
+  to   { right: 110%; }
+}
+
+/* Animação voadora */
+@keyframes venom-fly-move {
+  0% { right: -180px; bottom: 90px; }
+  100% { right: 110%; bottom: 90px; }
+}
+
+/* ===== PULOS ===== */
+.jump { animation: jump-forward 0.7s cubic-bezier(.25,.60,.30,1.05); }
+.double-jump { animation: double-jump-forward 0.9s cubic-bezier(.25,.60,.30,1.05); }
+
+@keyframes jump-forward {
+  0%   { bottom: -20px; left: 80px; }
+  30%  { bottom: 180px; left: 115px; }
+  50%  { bottom: 220px; left: 130px; }
+  80%  { bottom: 80px; left: 110px; }
+  100% { bottom: -20px; left: 80px; }
+}
+
+@keyframes double-jump-forward {
+  0%   { bottom: -20px; left: 80px; }
+  30%  { bottom: 230px; left: 120px; }
+  50%  { bottom: 300px; left: 150px; }
+  85%  { bottom: 100px; left: 115px; }
+  100% { bottom: -20px; left: 80px; }
+}
+
+/* ===== HUD ===== */
+.score {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  font-size: 1rem;
+  z-index: 20;
+  background: rgba(0,0,0,0.35);
+  padding: 6px 8px;
+  border-radius: 6px;
+  border: 1px solid rgba(255,255,255,0.12);
+}
+
+/* ===== GAME OVER ===== */
+.game-over {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.88);
+  padding: 32px;
+  border: 3px solid white;
+  border-radius: 10px;
+  text-align: center;
+  font-size: 1rem;
+  z-index: 999;
+}
+
+/* ===== PAUSE OVERLAY ===== */
+.pause-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+.pause-overlay .pause-box {
+  border: 3px solid white;
+  padding: 24px;
+  border-radius: 8px;
+  text-align: center;
+  font-family: 'Press Start 2P', monospace;
+}
+
+/* ===== POWERUPS ===== */
+.powerup {
+  position: absolute;
+  width: 64px;
+  height: 64px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  z-index: 30;
+  color: white;
+  border: 2px solid white;
+  background: rgba(0,0,0,0.6);
+}
+.powerup.bonus { background: rgba(20,120,20,0.7); }
+.powerup.shield { background: rgba(40,40,150,0.7); }
+.powerup.slow { background: rgba(150,80,20,0.7); }
+
+/* feedback text */
+.powerup-feedback {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 6%;
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid white;
+  background: rgba(0,0,0,0.7);
+  z-index: 999;
+  animation: fadeUp 1.6s ease forwards;
+}
+@keyframes fadeUp {
+  0% { opacity: 0; transform: translate(-50%, 6px); }
+  10% { opacity: 1; transform: translate(-50%, 0); }
+  100% { opacity: 0; transform: translate(-50%, -18px); }
+}
+
+/* small helpers */
+.hidden { display: none; }
+.venom2 { position: absolute; bottom: 0; z-index: 2; }
+
+/* responsive tweak */
+@media (max-width: 800px) {
+  .spider { width: 120px; left: 40px; }
+  #venom { width: 70px; }
+  #venom-fly { width: 80px; }
+}
+
+/* ===== SELETOR DE DIFICULDADE ===== */
+#device-selector {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  z-index: 200;
+}
+
+#device-selector h2 {
+  font-size: 1.5rem;
+  margin-bottom: 30px;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+}
+
+.device-buttons {
+  display: flex;
+  gap: 25px;
+  justify-content: center;
+}
+
+.device-btn {
+  background: rgba(20, 20, 20, 0.85);
+  border: 2px solid #fff;
+  border-radius: 12px;
+  padding: 20px 25px;
+  cursor: pointer;
+  color: white;
+  font-size: 1rem;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.device-btn:hover {
+  background: white;
+  color: black;
+  transform: scale(1.1);
+}
+
+.device-buttons + .intro-buttons {
+  margin-top: 40px;
+}
+.diff-buttons {
+  display: flex;
+  gap: 30px;
+  margin-top: 40px;
+}
+
+.diff-btn {
+  background: rgba(20, 20, 20, 0.9);
+  border: 3px solid #fff;
+  border-radius: 15px;
+  padding: 25px 30px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  transition: all 0.3s ease;
+  min-width: 180px;
+}
+
+.diff-btn:hover {
+  transform: scale(1.08);
+  box-shadow: 0 0 25px rgba(255,255,255,0.4);
+}
+
+.diff-btn.easy { border-color: #4CAF50; }
+.diff-btn.easy:hover { background: #4CAF50; color: white; }
+
+.diff-btn.medium { border-color: #FF9800; }
+.diff-btn.medium:hover { background: #FF9800; color: white; }
+
+.diff-btn.hard { border-color: #f44336; }
+.diff-btn.hard:hover { background: #f44336; color: white; }
+
+.diff-icon {
+  font-size: 2.5rem;
+}
+
+.diff-name {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.diff-desc {
+  font-size: 0.7rem;
+  opacity: 0.8;
+  text-align: center;
+}
+
+#difficulty-selector h2 {
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+  color: white;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+}

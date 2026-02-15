@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Instruções - Spider Run</title>
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+    body {
+      background: linear-gradient(to bottom right, #000428, #004e92);
+      color: white;
+      font-family: 'Press Start 2P', monospace;
+      padding: 20px;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .container {
+      width: 85%;
+      max-width: 900px;
+      max-height: 80vh;
+      padding: 30px;
+      overflow-y: auto;
+      background: rgba(0, 0, 0, 0.65);
+      border: 3px solid #ff2d2d;
+      border-radius: 20px;
+      box-shadow: 0px 0px 25px #ff000060, inset 0px 0px 25px #000000aa;
+      backdrop-filter: blur(6px);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 1.8rem;
+      color: #ff4c4c;
+      text-shadow: 0px 0px 8px black;
+    }
+
+    p {
+      font-size: 0.9rem;
+      line-height: 1.8;
+      text-align: center;
+    }
+
+    /* Scroll bonito */
+    .container::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    .container::-webkit-scrollbar-track {
+      background: #00000055;
+      border-radius: 10px;
+    }
+
+    .container::-webkit-scrollbar-thumb {
+      background: #ff2d2d;
+      border-radius: 10px;
+      box-shadow: 0px 0px 10px #ff2d2d;
+    }
+
+    .back-btn {
+      margin-top: 40px;
+      padding: 15px 35px;
+      background: #ff2d2d;
+      color: white;
+      border: none;
+      font-size: 1rem;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: 0.3s;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      box-shadow: 0px 0px 15px #ff2d2d;
+    }
+
+    .back-btn:hover {
+      background: white;
+      color: black;
+      transform: scale(1.05);
+      box-shadow: 0px 0px 18px #ffffff;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <h1>🕷️ Como Jogar – Spider Run 🕸️</h1>
+
+    <p>
+      ▶️ Pressione <b>ESPAÇO</b> para pular.<br><br>
+
+      🌀 Aperte <b>ESPAÇO duas vezes</b> para realizar um <b>pulo duplo</b>.<br><br>
+
+      💥 A partir de <b>50 pontos</b>, começam a aparecer <b>dois Venoms</b> simultaneamente.<br><br>
+
+      🕶️ A partir de <b>100 pontos</b>, o <b>Abutre</b> aparece voando como obstáculo.<br><br>
+
+      ⚡ <b>Power-Ups:</b><br>
+      – 🛡️ <b>Escudo</b>: invencibilidade temporária.<br>
+      – 💨 <b>Teleporte</b>: avança rapidamente.<br>
+      – 🐌 <b>Slow Motion</b>: inimigos ficam mais lentos.<br>
+      <br>
+      Todos aparecem de forma <b>aleatória</b>.<br><br>
+
+      🌓 <b>Fases e Dia/Noite:</b><br>
+      A cada <b>100 pontos</b>, aumenta a dificuldade e alterna dia/noite.<br><br>
+
+      ⏸️ Pressione <b>P</b> para pausar ou retomar o jogo.<br><br>
+
+      🎵 As músicas passam automaticamente — ao fim da playlist, reinicia do começo.<br><br>
+
+      🏆 Um <b>ranking local</b> salva seus <b>5 melhores scores</b> automaticamente.<br><br>
+
+      💀 Quando morrer, pressione <b>R</b> para reiniciar.<br>
+      🔁 Pressione <b>R duas vezes</b> para zerar o recorde e contador de mortes.<br><br>
+
+      🕸️ Sobreviva o máximo que puder e alcance pontuações cada vez maiores!
+    </p>
+
+    <button class="back-btn" onclick="window.location.href='index.html'">
+      ⬅️ Voltar à Introdução
+    </button>
+  </div>
+
+</body>
+</html>
