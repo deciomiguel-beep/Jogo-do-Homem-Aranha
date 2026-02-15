@@ -42,6 +42,9 @@ window.addEventListener('DOMContentLoaded', () => {
       flySize: '100px'
     }
   };
+  
+  // Elementos dos botões mobile
+  const mobileControls = document.getElementById('mobile-controls');
 
   // Configurar dispositivo
   function setDevice(dev) {
@@ -372,6 +375,15 @@ window.addEventListener('DOMContentLoaded', () => {
   function startGame() {
     // Aplicar configurações do dispositivo
     applyDeviceSettings();
+    
+    // Mostrar/ocultar botões mobile
+    if (mobileControls) {
+      if (device === 'celular' || device === 'tablet') {
+        mobileControls.classList.remove('hidden');
+      } else {
+        mobileControls.classList.add('hidden');
+      }
+    }
     
     // Limpar telas anteriores
     const old = document.querySelector('.game-over');

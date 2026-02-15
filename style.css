@@ -64,24 +64,17 @@ body {
 /* ===== JOGO ===== */
 .game-board {
   width: 100%;
-  max-width: 800px;
-  height: 600px;
-  margin: 0 auto;
+  height: 100%;
   position: relative;
   overflow: hidden;
   background: linear-gradient(to top, #3185da, #003366);
-  border: 4px solid #e94560;
-  border-radius: 10px;
   border-bottom: 30px solid rgb(35, 160, 35);
 }
 
-/* Estilo para celular - arcade centralizado */
-@media (max-width: 600px) {
+/* Layout para celular - jogo ocupa a tela toda */
+@media (max-width: 768px) {
   .game-board {
-    width: 95%;
-    height: 70vh;
-    max-height: 500px;
-    margin: 15vh auto;
+    height: 65vh;
   }
 }
 
@@ -344,4 +337,66 @@ body {
   margin-bottom: 10px;
   color: white;
   text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+}
+
+/* ===== BOTÕES MOBILE (fora do jogo) ===== */
+.mobile-controls {
+  position: fixed;
+  bottom: 20px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 30px;
+  z-index: 100;
+}
+
+.mobile-controls.hidden {
+  display: none;
+}
+
+.arcade-btn {
+  padding: 20px 40px;
+  font-size: 1rem;
+  font-family: 'Press Start 2P', monospace;
+  border: 3px solid white;
+  border-radius: 15px;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: all 0.1s ease;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.arcade-btn:active {
+  transform: scale(0.95);
+}
+
+.jump-btn {
+  background: #4CAF50;
+  color: white;
+  box-shadow: 0 6px 0 #2E7D32;
+}
+
+.jump-btn:active {
+  box-shadow: 0 3px 0 #2E7D32;
+  transform: translateY(3px);
+}
+
+.restart-btn {
+  background: #e94560;
+  color: white;
+  box-shadow: 0 6px 0 #b71c1c;
+}
+
+.restart-btn:active {
+  box-shadow: 0 3px 0 #b71c1c;
+  transform: translateY(3px);
+}
+
+/* Mostrar botões apenas no mobile */
+@media (min-width: 769px) {
+  .mobile-controls {
+    display: none;
+  }
 }
