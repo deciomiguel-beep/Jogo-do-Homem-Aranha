@@ -48,6 +48,24 @@ window.addEventListener('DOMContentLoaded', () => {
     device = dev;
     const settings = deviceSettings[device];
     
+    // Salvar no localStorage
+    localStorage.setItem('gameDevice', device);
+    
+    // Esconder seletor de dispositivo e mostrar botões
+    if (deviceSelector) deviceSelector.style.display = 'none';
+    if (introButtons) introButtons.classList.remove('hidden');
+  }
+  
+  // Aplicar configurações do dispositivo ao jogo
+  function applyDeviceSettings() {
+    // Primeiro tenta recuperar do localStorage
+    const savedDevice = localStorage.getItem('gameDevice');
+    if (savedDevice && deviceSettings[savedDevice]) {
+      device = savedDevice;
+    }
+    
+    const settings = deviceSettings[device];
+    
     if (gameBoard) {
       gameBoard.style.width = settings.gameWidth;
       gameBoard.style.height = settings.gameHeight;
@@ -55,10 +73,6 @@ window.addEventListener('DOMContentLoaded', () => {
     if (spider) {
       spider.style.width = settings.spiderSize;
     }
-    
-    // Esconder seletor de dispositivo e mostrar botões
-    if (deviceSelector) deviceSelector.style.display = 'none';
-    if (introButtons) introButtons.classList.remove('hidden');
   }
 
   // Event listeners para botões de dispositivo
@@ -66,6 +80,7 @@ window.addEventListener('DOMContentLoaded', () => {
     deviceSelector.querySelectorAll('.device-btn').forEach(btn => {
       btn.addEventListener('click', function() {
         setDevice(this.dataset.device);
+        applyDeviceSettings();
       });
     });
   }
@@ -130,10 +145,10 @@ window.addEventListener('DOMContentLoaded', () => {
   // MÚSICA
   // ========================
   const musicPaths = [
-    './sounds/music1.mp3',
-    './sounds/music2.mp3',
-    './sounds/music3.mp3',
-    './sounds/music4.mp3'
+    './music1.mp3',
+    './music2.mp3',
+    './music3.mp3',
+    './music4.mp3'
   ];
   let currentMusicIndex = 0;
   let bgMusic = null;
@@ -267,7 +282,7 @@ window.addEventListener('DOMContentLoaded', () => {
   // ========================
   function criarVenom(offset, duration = null) {
     const v = document.createElement('img');
-    v.src = './images/venom.png';
+    v.src = './venom.png';
     v.className = 'venom2';
     v.style.position = 'absolute';
     v.style.bottom = '0px';
@@ -355,6 +370,9 @@ window.addEventListener('DOMContentLoaded', () => {
   // INICIAR JOGO
   // ========================
   function startGame() {
+    // Aplicar configurações do dispositivo
+    applyDeviceSettings();
+    
     // Limpar telas anteriores
     const old = document.querySelector('.game-over');
     if (old) old.remove();
@@ -385,7 +403,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     // Resetar spider
     if (spider) {
-      spider.src = './images/spiderman.gif';
+      spider.src = './spiderman.gif';
       spider.style.animation = '';
       spider.style.filter = '';
       spider.classList.remove('jump', 'double-jump');
@@ -549,7 +567,7 @@ window.addEventListener('DOMContentLoaded', () => {
     if (spider) {
       spider.style.animation = 'none';
       spider.style.animationPlayState = 'paused';
-      spider.src = './images/spider-dead.png';
+      spider.src = './spider-dead.png';
     }
 
     const rankingTop = saveRanking(score);
@@ -788,6 +806,7 @@ window.addEventListener('DOMContentLoaded', () => {
   // ========================
   // INICIALIZAÇÃO
   // ========================
+  applyDeviceSettings(); // Aplicar configurações do dispositivo
   ensureVisible(venom);
   ensureHidden(venomFly);
   updateEnemySpeeds();
