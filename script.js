@@ -477,11 +477,6 @@ window.addEventListener('DOMContentLoaded', () => {
       venomFly.style.right = flyRight;
       venomFly.style.bottom = flyBottom;
     }
-    
-    // Parar música
-    if (bgMusic) {
-      try { bgMusic.pause(); } catch(e) {}
-    }
 
     // Trocar imagem do spider para morto
     if (spider) {
